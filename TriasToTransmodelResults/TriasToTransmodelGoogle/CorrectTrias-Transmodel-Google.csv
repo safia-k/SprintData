@@ -1,0 +1,10 @@
+51,destination,destinationstop,0.6745575991543856
+57,destinationtext,destinationdisplay,0.7004035313924154
+59,directionhint,directiontype,0.7607688426971435
+82,facilitystructure,servicefacilityset,0.7142396545410157
+121,infrastructurefacilitystructure,infrastructurepoint,0.6306019331279554
+123,interchangeleg,defaultinterchange,0.6240975200266078
+157,linkdistance,inlinksequence,0.6679168114295373
+172,maxduration,maximumheadwayinterval,0.653008759021759
+237,servicestatus,servicejourneypattern,0.6904675165812174
+248,stoppointcodetype,requeststop,0.7124803543090821

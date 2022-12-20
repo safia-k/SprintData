@@ -1,0 +1,15 @@
+11,bearing,aviewof,0.5996289354689577
+54,destination,destinationstop,0.64839833281761
+60,destinationtext,destinationdisplay,0.6198457241058349
+75,endtime,lastdeparturetime,0.6621366647573618
+100,farezonelistinareastructure,farepointinjourneypattern,0.6515997354086344
+115,geopositionstructure,pointinlinksequence,0.6326094282434341
+144,journeyref,runtime,0.666008529663086
+169,length,startingat,0.6980921881539481
+186,locationrefstructure,dynamicstopassignment,0.6703569412231445
+197,maxduration,maximumheadwayinterval,0.5985970560709636
+214,navigationsection,madeupof,0.6151478165537315
+244,publishedlinename,characterisedby,0.5639977600329962
+276,starttime,starttime,0.6840996269707207
+283,stoppointcode,overriding,0.6555892709341359
+285,stoppointcodetype,requeststop,0.641471422635592

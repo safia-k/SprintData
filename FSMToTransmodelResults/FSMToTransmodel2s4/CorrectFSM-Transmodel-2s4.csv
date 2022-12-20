@@ -1,0 +1,8 @@
+4,arrivaltime,arrivaltime,0.8920760996201459
+18,borderpointcode,bordercrossing,0.7344957590103149
+25,connection,passengerconnection,0.8903249502182007
+37,duration,time,1.0
+70,navigationpoint,journeypattern,1.0
+91,placereference,addressableplace,0.8478303551673889
+150,stopplacename,requeststop,0.8480808138847351
+179,wheelchairoverallchangetime,time,0.8517659187316895

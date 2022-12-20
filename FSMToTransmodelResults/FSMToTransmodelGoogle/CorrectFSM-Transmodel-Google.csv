@@ -1,0 +1,12 @@
+11,boardingposition,boardingposition,0.7489956942471591
+11,boardingposition,boardingposition,0.7489956942471591
+22,borderpointcode,bordercrossing,0.6498631000518799
+53,destination,destinationstop,0.6745575991543856
+60,duration,time,0.525963306427002
+62,effectivedeparture,departuretime,0.6750409262520927
+88,itinerary,trip,0.63940598747947
+128,placereference,addressableplace,0.7424314816792806
+174,start,starttime,0.6791914531162807
+176,stoparea,stoparea,0.7197446125309642
+193,stopplacename,requeststop,0.6956339359283448
+212,vehicleaccess,accesszone,0.7173551082611084

@@ -1,0 +1,8 @@
+20,destinationstoppointref,daytypeassignment,1.0
+27,directionhint,directiontype,0.8062216758728027
+43,facilitystructure,servicefacilityset,0.7233520746231079
+46,farezonelistinareastructure,farepointinjourneypattern,1.0
+55,geoposition,inlinksequence,0.7694213390350342
+166,service,vehiclejourneyroute,1.0
+185,starttime,starttime,0.945550282796224
+224,unplanned,requeststop,0.5860201120376587

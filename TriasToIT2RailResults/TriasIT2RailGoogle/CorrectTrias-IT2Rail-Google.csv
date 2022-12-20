@@ -1,0 +1,14 @@
+46,datedjourneystructure,travelepisode,0.6306985855102539
+66,duration,duration,0.6830210995364498
+74,errormessage,faultmessagemapping,0.7166414790683322
+86,facilitystructure,facility,0.7033293372706363
+120,infourl,contactinfo,0.6364313038912687
+148,latitude,geocoordinates,0.5412443478902181
+149,legdescription,fareproductdescription,0.6930923963847914
+153,legend,endpoint,0.664977490901947
+182,longitude,geocoordinates,0.5687774022420248
+189,maxduration,duration,0.6844695306593372
+194,minduration,duration,0.679008410527156
+260,servicegroup,transportationservice,0.682949956258138
+272,stoppoint,stopplace,0.6837999444258841
+314,turndescription,fareproductdescription,0.6790685961323399
