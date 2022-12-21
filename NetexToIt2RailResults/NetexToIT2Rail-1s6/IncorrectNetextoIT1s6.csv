@@ -95,16 +95,10 @@
 229,roadjunction,entryvalidationcap,0.6096874005866774
 230,roadjunction,atstopplace,0.6088787513443187
 243,salespackage,postsalesprocess,0.8063522212761493
-243,salespackage,postsalesprocess,0.8063522212761493
-244,salespackage,expirationdate,0.7618677438783251
 244,salespackage,expirationdate,0.7618677438783251
 245,salespackage,productprovidername,0.7558296771088907
-245,salespackage,productprovidername,0.7558296771088907
-246,salespackageelement,travelexpertid,0.7892523521234182
 246,salespackageelement,travelexpertid,0.7892523521234182
 247,salespackageelement,transportserviceproviderid,0.7891167885015818
-247,salespackageelement,transportserviceproviderid,0.7891167885015818
-248,salespackageelement,entitlement,0.7875787403957903
 248,salespackageelement,entitlement,0.7875787403957903
 249,salespackageprice,transportationserviceprovidername,0.7549850463867187
 250,salespackageprice,transportationserviceprovidercode,0.7315649237514528
@@ -128,10 +122,7 @@
 289,tariff,issuancecountry,0.63674263159434
 290,tariff,activityname,0.6265312770627579
 306,timetableframe,referencepassenger,0.7541225212664644
-306,timetableframe,referencepassenger,0.7541225212664644
 307,timetableframe,output,0.7439134680706522
-307,timetableframe,output,0.7439134680706522
-308,timetableframe,minimumconnectiontime,0.7384955088297526
 308,timetableframe,minimumconnectiontime,0.7384955088297526
 330,timingpointinjourneypattern,detailedquotation,0.8230573796043711
 331,timingpointinjourneypattern,reftravelshopperid,0.8226824043210873
