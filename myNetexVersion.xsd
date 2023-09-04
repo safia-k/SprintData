@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Just a convenience  arteifact for  accessng elements -->
+<xsd:schema
+		xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+		xmlns="http://www.netex.org.uk/netex"
+		xmlns:netex="http://www.netex.org.uk/netex"
+		xmlns:siri="http://www.siri.org.uk/siri"
+		targetNamespace="http://www.netex.org.uk/netex" elementFormDefault="qualified"
+		attributeFormDefault="unqualified" version="1.0" id="nx">
+	<!-- === THIS SCHEMA PROVIDES A THEMATIC ORGANISATION of NeTEx XML OBJECTS   =========== -->
+	<!-- ===  ONLY TO FACILITATE  STUDY OF SCHEMA ELEMENTS.  DO NOT USE IT FOR DOCUMENTS  =========== -->
+	<!-- === Use NeTEx_publication.xsd or NeTEx_publication_timetable  or NeTEx_siri.xsd=========== -->
+	<!-- (C) Copyright 2009-2012 CEN,Crown Copyright -->
+	<!-- <xsd:include schemaLocation="netex_service/netex_all.xsd"/> -->
+	<!-- <xsd:include schemaLocation="netex_framework/netex_payload_framework.xsd"/> -->
+	<!-- ======================================================================= -->
+	<!-- ======================================================================= -->
+	<!-- <xsd:include schemaLocation="netex_service/netex_all.xsd"/> -->
+
+
+  <xsd:complexType name="ServiceLinkGroup" mixed="true">
+	  <xsd:sequence>
+		  <xsd:element name="FromPointRef" type="ScheduledStopPointRefStructure"/>
+		  <xsd:element name="ToPointRef" type="ScheduledStopPointRefStructure"/>
+		  <xsd:element name="ScheduledStopPointRef" type="ScheduledStopPointRefStructure"/>
+	  </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="StopPointReferences">
+		<xsd:sequence>
+	       <xsd:element name="FromPointRef" type="ScheduledStopPointRefStructure"/>
+	       <xsd:element name="ToPointRef" type="ScheduledStopPointRefStructure"/>
+		</xsd:sequence>
+    </xsd:complexType>
+
+  <xsd:complexType name="ScheduledStopPointRefStructure">
+	  <xsd:sequence>
+         <xsd:element name="VehicleMode" type = "ServiceLinkGroup"/>
+         <xsd:element name="OperationalContextRef" type = "ServiceLinkGroup"/>
+	  </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="StopPointDescriptionGroup">
+	  <xsd:sequence>
+		<xsd:element name="StopType" type="xsd:string"/>
+		<xsd:element name="RequestStop" type="xsd:string"/>
+		<xsd:element name="stopAreas" type="StopPointReferences"/>
+		<xsd:element name="tariffZones" type="StopPointReferences"/>
+	  </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="ScheduledStopPointGroup">
+	  <xsd:sequence>
+	     <xsd:element name="ShortName" type="StopPointDescriptionGroup"/>
+	     <xsd:element name="NameSuffix" type="StopPointDescriptionGroup"/>
+	     <xsd:element name="Description" type="StopPointDescriptionGroup"/>
+	     <xsd:element name="Label" type="StopPointDescriptionGroup"/>
+	  </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="LinkInJourneyPattern">
+	   <xsd:sequence>
+		   <xsd:element name="ServiceLinkInJourneyPattern" type = "xsd:string"/>
+		   <xsd:element name="TimingLinkInJourneyPattern" type = "timingLinks_RelStructure" />
+	   </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="timingLinks_RelStructure">
+				<xsd:sequence>
+					<xsd:element name="TimingLink" maxOccurs="unbounded"/>
+				</xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="TimingPointInJourneyPatternGroup">
+	   <xsd:sequence>
+			<xsd:element name="OnwardTimingLinkRef" type="timingLinks_RelStructure" minOccurs="0"/>
+		    <xsd:element name="TimingLinkInJourneyPattern"  type="LinkInJourneyPattern"/>
+	   </xsd:sequence>
+   </xsd:complexType>
+
+  <xsd:complexType name="pointsInJourneyPattern_RelStructure">
+	  <xsd:sequence>
+		  <xsd:element name="PointInJourneyPattern" type= "JourneyPattern"/>
+		  <xsd:element name="StopPointInJourneyPattern" type = "StopPointDescriptionGroup"/>
+		  <xsd:element name="TimingPointInJourneyPattern" type = "TimingPointInJourneyPatternGroup"/>
+	  </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="JourneyPattern">
+	 <xsd:sequence>
+		 <xsd:element name="pointsInSequence" type="pointsInJourneyPattern_RelStructure" minOccurs="0"/>
+		 <xsd:element name="linksInSequence" type="LinkInJourneyPattern" minOccurs="0"/>
+	 </xsd:sequence>
+  </xsd:complexType>
+
+
+  <xsd:complexType name = "TimingPatternGroup">
+	 <xsd:sequence>
+		 <xsd:element name="RouteRef" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="DirectionType" type = "xsd:string" minOccurs="0"/>
+			<xsd:element name="pointsInSequence" type="TimingPointInJourneyPatternGroup" minOccurs="0"/>
+			<xsd:element name="points" type="TimingPointInJourneyPatternGroup" minOccurs="0"/>
+			<xsd:element name="links" type="timingLinks_RelStructure" minOccurs="0"/>
+	 </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="FareScheduledStopPointRefStructure">
+    <xsd:sequence>
+	   <xsd:element name = "ScheduledStopPointView" type = "StopPointDescriptionGroup" minOccurs="0"/>
+	   <xsd:element name="InterchangeAllowed" type="xsd:string" minOccurs="0"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="FareScheduledStopPoint">
+	  <xsd:sequence>
+			<xsd:element name="AccountingStopPointRef" type="FareScheduledStopPointRefStructure"/>
+	  </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="FarePointInPatternRefStructure">
+
+  </xsd:complexType>
+
+  <xsd:complexType name="FareZoneRefStructure">
+	 <xsd:sequence>
+
+	 </xsd:sequence>
+   </xsd:complexType>
+
+  <xsd:complexType name="FareZone">
+     <xsd:sequence>
+	   <xsd:element name="ParentFareZoneRef" type="FareZoneRefStructure" minOccurs="0"/>
+	   <xsd:element name="ZoneTopology" type="FareZoneRefStructure" minOccurs="0"/>
+	   <xsd:element name="fareSections" type="FareSection" minOccurs="0"/>
+	   <xsd:element name="neighbours" type="fareZonesInFrame_RelStructure" minOccurs="0"/>
+     </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="FareSection">
+	 <xsd:sequence>
+        <xsd:element name = "JourneyPattern" type = "FarePointInPattern"/>
+		 <xsd:element name="FromPointInPatternRef" type="FarePointInPatternRefStructure" minOccurs="0"/>
+		 <xsd:element name="ToPointInPatternRef" type="FarePointInPatternRefStructure" minOccurs="0"/>
+	 </xsd:sequence>
+  </xsd:complexType>
+
+   <xsd:complexType name="BorderPoint">
+	 <xsd:sequence>
+		 <xsd:element name="ShortName" type="borderPointsInFrame_RelStructure" minOccurs="0"/>
+		 <xsd:element name="Description" type="borderPointsInFrame_RelStructure" minOccurs="0"/>
+	 </xsd:sequence>
+   </xsd:complexType>
+
+   <xsd:complexType name="frameContainmentStructure"></xsd:complexType>
+   <xsd:complexType name="borderPointsInFrame_RelStructure">
+
+   </xsd:complexType>
+
+   <xsd:complexType name="fareScheduledStopPointsInFrame_RelStructure">
+		<xsd:annotation>
+			<xsd:documentation>Type for containment in frame of  FARE SCHEUDLED STOP POINT.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="frameContainmentStructure">
+				<xsd:choice maxOccurs="unbounded">
+					<xsd:element name="ScheduledStopPoint" type = "StopPointDescriptionGroup"/>
+					<xsd:element name="FareScheduledStopPoint" type = "StopPointDescriptionGroup">
+						<xsd:annotation>
+							<xsd:documentation> A POINT where passengers can board or alight from vehicles and that is designated fare  point.</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+				</xsd:choice>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+   <xsd:complexType name="fareZonesInFrame_RelStructure"> </xsd:complexType>
+   <xsd:complexType name="FarePointInPattern">
+		<xsd:sequence>
+			<xsd:element name = "ScheduledStopPointView" type = "StopPointDescriptionGroup"/>
+
+		</xsd:sequence>
+   </xsd:complexType>
+   <xsd:complexType name="fareSectionsInFrame_RelStructure"></xsd:complexType>
+
+   <xsd:complexType name = "FareRoutingInFrameGroup">
+        <xsd:sequence>
+            <xsd:element name="FareScheduledStopPoint" type="fareScheduledStopPointsInFrame_RelStructure"  minOccurs="0" maxOccurs="unbounded"/>
+            <xsd:element name="FareZone" type = "fareZonesInFrame_RelStructure" minOccurs="0" maxOccurs="unbounded"/>
+            <xsd:element name="SeriesConstraint" type = "xsd:string" minOccurs="0" maxOccurs="unbounded"/>
+            <xsd:element name="FareSection" type = "fareSectionsInFrame_RelStructure" minOccurs="0" maxOccurs="unbounded"/>
+        </xsd:sequence>
+   </xsd:complexType>
+
+</xsd:schema>

@@ -1,0 +1,882 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema
+		xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+		xmlns:trias="http://www.vdv.de/trias"
+		targetNamespace="http://www.vdv.de/trias"
+		elementFormDefault="qualified">
+	<!--attributeFormDefault="unqualified">-->
+    <!--<xsd:include schemaLocation="Trias_JourneySupport.xsd"/> -->
+	<!--<xsd:include schemaLocation="Trias_FaresSupport.xsd"/> -->
+
+	<xsd:complexType name="ErrorMessageStructure">
+		<xsd:annotation>
+			<xsd:documentation>Structured error messages</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="Code" type="xsd:normalizedString">
+				<xsd:annotation>
+					<xsd:documentation>Code of the error situation.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Text" type="trias:InternationalTextStructure" minOccurs="0" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:documentation>Description of the error situation.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:simpleType name="PhoneNumberType">
+		<xsd:annotation>
+			<xsd:documentation>Type definition for phone numbers</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:normalizedString"/>
+	</xsd:simpleType>
+
+	<xsd:complexType name="BookingInfoStructure">
+		<xsd:annotation>
+			<xsd:documentation>Description of a booking opportunity.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="BookingAgencyName" type="trias:InternationalTextStructure" minOccurs="0" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:documentation>Name of the booking agency (contractual partner).</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="BookingUrl" type="xsd:anyURI" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>URL to online booking service.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="InfoUrl" type="xsd:anyURI" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>URL to information page.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="PhoneNumber" type="trias:PhoneNumberType" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Phone number for booking.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="BookingDeadline" type="xsd:duration" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Minimum duration bookings must be completed before trip starts.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Extension" type="xsd:anyType" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="StopPoint">
+		<xsd:annotation>
+			<xsd:documentation>Identifier of a Stop Point</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="StopPointCodeType" type = "xsd:anyType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="StopPointRefStructure">
+		<xsd:annotation>
+			<xsd:documentation>Reference to a Stop Point</xsd:documentation>
+		</xsd:annotation>
+			<xsd:sequence>
+				<xsd:element name="StopPointCode" type= "trias:StopPoint"/>
+			</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:simpleType name="OperatingDayCodeType">
+		<xsd:annotation>
+			<xsd:documentation>Identifier of an Operating Day</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:NMTOKEN"/>
+	</xsd:simpleType>
+
+	<xsd:complexType name="OperatingDayRefStructure">
+		<xsd:annotation>
+			<xsd:documentation>Reference to an Operating Day</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+		 <xsd:element name="Exclude" type="xsd:boolean" default="true"/>
+		 <xsd:element name="OperatingDayRef" type="trias:VehicleRefStructure"/>
+		</xsd:sequence>
+	</xsd:complexType>
+
+
+	<xsd:simpleType name="VehicleCodeType">
+		<xsd:annotation>
+			<xsd:documentation>Identifier of a Vehicle.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:NMTOKEN"/>
+	</xsd:simpleType>
+
+	<xsd:complexType name="VehicleRefStructure">
+		<xsd:annotation>
+			<xsd:documentation>Reference to a Vehicle (Transmodel)</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="TimeOfOperation" type="xsd:dateTime"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:element name="VehicleRef" type="trias:VehicleRefStructure"/>
+
+	<xsd:complexType name="ServiceGroup">
+		<xsd:annotation>
+			<xsd:documentation>Properties of a service (line and direction).</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="PublishedLineName" type="trias:InternationalTextStructure" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:documentation>Line name or service description as known to the public, f.e. "512", "S8" or "Circle Line".</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="RouteDescription" type="trias:InternationalTextStructure" minOccurs="0" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:documentation>Descriptive text for a route, f.e. "Airport via City Centre"</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	
+	<xsd:complexType name="ServiceSectionStructure">
+		<xsd:annotation>
+			<xsd:documentation>Properties of a service combined with a stop sequence interval.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="JourneyRef" type="trias:JourneyRefStructure"/>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:simpleType name="AttributeScopeEnumeration">
+		<xsd:annotation>
+			<xsd:documentation>Enumeration of attribute types.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="onRide"/>
+			<xsd:enumeration value="atStop"/>
+			<xsd:enumeration value="atBoardOnly"/>
+			<xsd:enumeration value="atAlightOnly"/>
+			<xsd:enumeration value="atBoardAndAlight"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:complexType name="GeneralAttributeStructure">
+		<xsd:annotation>
+			<xsd:documentation>Structured attribute classification with associated text.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="Text" type="trias:InternationalTextStructure" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:documentation>Text of the attribute to be shown to the user.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Code" type="xsd:NMTOKEN">
+				<xsd:annotation>
+					<xsd:documentation>Internal code of the attribute. Can be used for detection of double occurrences.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="ServiceAttributeStructure">
+		<xsd:annotation>
+			<xsd:documentation>Attributes that are not valid on the whole service, but only on part of the journey leg.</xsd:documentation>
+		</xsd:annotation>
+				<xsd:sequence>
+					<xsd:element name="Scope" type="trias:AttributeScopeEnumeration" minOccurs="0">
+						<xsd:annotation>
+							<xsd:documentation>Scope of the attribute. Defines where the attribute references to (on track, at stops, at boarding, at alighting).</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+				</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:simpleType name="JourneyCodeType">
+		<xsd:annotation>
+			<xsd:documentation>Identifier of a Journey</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:NMTOKEN"/>
+	</xsd:simpleType>
+
+	<xsd:complexType name="JourneyRefStructure">
+		<xsd:annotation>
+			<xsd:documentation>Reference to a Journey</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+		 <xsd:element name="Attribute" type="trias:ServiceAttributeStructure"  maxOccurs="unbounded">
+			<xsd:annotation>
+				<xsd:documentation>Note or service attribute.</xsd:documentation>
+			</xsd:annotation>
+		 </xsd:element>
+		 <xsd:element name="JourneyRef" type="xsd:anyType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	
+	<xsd:complexType name="DatedServiceGroup">
+		<xsd:annotation>
+			<xsd:documentation>Vehicle journey that runs at a specific date.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="VehicleRef" type= "xsd:anyType" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="InternationalTextStructure">
+		<xsd:annotation>
+			<xsd:documentation>Text with id and language code.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="Text" type="xsd:normalizedString">
+				<xsd:annotation>
+					<xsd:documentation>Text content.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="TextId" type="xsd:NMTOKEN" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Id of this text. May be used for matching to pre-recorded audio files.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Language" type="xsd:language" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Language in which Text is formulated.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	
+	<xsd:complexType name="ServiceDestination">
+		<xsd:annotation>
+			<xsd:documentation>Last serviced stop of a vehicle journey.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="DestinationStopPointRef" type="trias:StopPointRefStructure" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Last stop of vehicle journey.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="DestinationText" type="trias:InternationalTextStructure" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:documentation>Label for last stop.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:simpleType name="OccupancyEnumeration">
+		<xsd:annotation>
+			<xsd:documentation>Passenger load status of a vehicle.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:NMTOKEN">
+			<xsd:enumeration value="manySeatsAvailable"/>
+			<xsd:enumeration value="fewSeatsAvailable"/>
+			<xsd:enumeration value="noSeatsAvailable"/>
+			<xsd:enumeration value="standingAvailable"/>
+			<xsd:enumeration value="full"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	
+	<xsd:complexType name="DatedJourneyStructure">
+		<xsd:annotation>
+			<xsd:documentation>Service status properties.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="Unplanned" type="xsd:boolean" default="false" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Whether this trip is an additional one that has not been planned. Default is false.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Cancelled" type="xsd:boolean" default="false" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Whether this trip is cancelled and will not be run. Default is false.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Deviation" type="xsd:boolean" default="false" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Whether this trip deviates from the planned service pattern. Default is false.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Occupancy" type="trias:OccupancyEnumeration" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Level of occupancy in the vehicle. If omitted, not known.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	
+	<xsd:complexType name="ServiceStatus">
+		<xsd:annotation>
+			<xsd:documentation>Structure for a vehicle journey at a specific date.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="Service" type="trias:ParallelServiceStructure">
+				<xsd:annotation>
+					<xsd:documentation>Properties of the parallel service.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="StopSeqIntervalGroup">
+		<xsd:annotation>
+			<xsd:documentation>Interval of stop sequence numbers</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="FromStopSeqNumber" type="xsd:positiveInteger" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Stop sequence number, where the interval begins (inclusive). If missing, the interval begins at the beginning of the leg (or at the beginning of the journey for uses in StopEvents and TripInfo).</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="ToStopSeqNumber" type="xsd:positiveInteger" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Stop sequence number, where the interval ends (inclusive). If missing, the interval ends at the end of the leg (or at the end of the journey for uses in StopEvents and TripInfo).</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	
+	<xsd:simpleType name="ParallelServiceStructure">
+		<xsd:annotation>
+			<xsd:documentation>Structure combining a parallel running service with a stop sequence interval.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:NMTOKEN"/>
+	</xsd:simpleType>
+
+
+	<xsd:simpleType name="OperatorCodeType">
+		<xsd:annotation>
+			<xsd:documentation>Identifier of an Operator</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:NMTOKEN"/>
+	</xsd:simpleType>
+
+	<xsd:complexType name="OperatorRefStructure">
+		<xsd:annotation>
+			<xsd:documentation>Reference to an Operator</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="OperatorRef" type="xsd:anyType" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	
+	<xsd:complexType name="BookingInfoRequestStructure">
+		<xsd:annotation>
+			<xsd:documentation>Booking info request structure.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:choice>
+				<xsd:element name="Service" type="trias:ServiceStatus">
+					<xsd:annotation>
+						<xsd:documentation>Definition of a public transport service on a particular operating day.</xsd:documentation>
+					</xsd:annotation>
+				</xsd:element>
+			</xsd:choice>
+			<xsd:element name="Extension" type="xsd:anyType" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+
+
+	<xsd:complexType name="BookingInfoResponseStructure">
+		<xsd:annotation>
+			<xsd:documentation>Booking info response structure.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="ErrorMessage" type="trias:ErrorMessageStructure" minOccurs="0" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:documentation>Error messages.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="BookingInfoResult" type="trias:BookingInfoResultStructure" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Result structure</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="BookingInfoRequest" type="trias:BookingInfoRequestStructure">
+				<xsd:annotation>
+					<xsd:documentation>Booking info request element.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="BookingInfoResultStructure">
+		<xsd:annotation>
+			<xsd:documentation>Booking info result structure.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="BookingInfo" type="trias:BookingInfoStructure" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:documentation>One or more booking opportunities.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Extension" type="xsd:anyType" minOccurs="0"/>
+			<xsd:element name="BookingInfoResponse" type="trias:BookingInfoResponseStructure">
+				<xsd:annotation>
+					<xsd:documentation>Booking info response element.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="TripStructure">
+		<xsd:annotation>
+			<xsd:documentation>Structure for an inter-modal passenger trip.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="TripId" type="xsd:NMTOKEN">
+				<xsd:annotation>
+					<xsd:documentation>Id of this trip for referencing purposes. Unique within trip response.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Duration" type="xsd:duration">
+				<xsd:annotation>
+					<xsd:documentation>Overall duration of the trip.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="StartTime" type="xsd:dateTime">
+				<xsd:annotation>
+					<xsd:documentation>Departure time at origin.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="EndTime" type="xsd:dateTime">
+				<xsd:annotation>
+					<xsd:documentation>Arrival time at destination.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Interchanges" type="xsd:nonNegativeInteger">
+				<xsd:annotation>
+					<xsd:documentation>Number of interchanges.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Distance" type="trias:DistanceType" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Trip distance.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="TripLeg" type="trias:TripLegStructure" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:documentation>Legs of the trip</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Extension" type="xsd:anyType" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+
+
+	<xsd:complexType name="TripLegStructure">
+		<xsd:annotation>
+			<xsd:documentation>Structure for a single leg of a passenger trip.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="LegId" type="xsd:NMTOKEN">
+				<xsd:annotation>
+					<xsd:documentation>Id of this trip leg. Unique within trip result.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:choice>
+				<xsd:annotation>
+					<xsd:documentation>Choice for the type of the trip leg.</xsd:documentation>
+				</xsd:annotation>
+				<xsd:element name="InterchangeLeg" type="trias:InterchangeLegStructure"/>
+			</xsd:choice>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	
+	
+	<xsd:simpleType name="DistanceType">
+		<xsd:annotation>
+			<xsd:documentation>Data type for distances, in meters.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:nonNegativeInteger"/>
+	</xsd:simpleType>
+
+
+	<xsd:complexType name="InterchangeLegStructure">
+		<xsd:annotation>
+			<xsd:documentation>Leg of a journey that describes the interchange between different services.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:choice>
+			</xsd:choice>
+			<xsd:element name="LegStart" type="trias:LocationRefStructure">
+				<xsd:annotation>
+					<xsd:documentation>Stop/Station where boarding is done</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="LegEnd" type="trias:LocationRefStructure">
+				<xsd:annotation>
+					<xsd:documentation>Stop/Station to alight</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="LegDescription" type="trias:InternationalTextStructure" minOccurs="0" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:documentation>Text that describes this interchange.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Length" type="trias:LengthType" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Length of this interchange path.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Attribute" type="trias:GeneralAttributeStructure" minOccurs="0" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:documentation>Note or service attribute.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="NavigationPath" type="trias:NavigationPathStructure" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Structured model further describing this interchange, its geographic embedding and accessibility.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Extension" type="xsd:anyType" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="NavigationPathStructure">
+		<xsd:annotation>
+			<xsd:documentation>Description of a piece of a journey. May include geographic information, turn instructions and accessibility information.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="NavigationSection" type="trias:NavigationSectionStructure" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:documentation>One or more navigation sections that build the journey leg.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:simpleType name="LengthType">
+		<xsd:annotation>
+			<xsd:documentation>Data type for lengths, in meters.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:nonNegativeInteger"/>
+	</xsd:simpleType>
+	
+	<xsd:complexType name="NavigationSectionStructure">
+		<xsd:annotation>
+			<xsd:documentation>Building block of a NavigationPath.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="TurnDescription" type="trias:InternationalTextStructure" minOccurs="0" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:documentation>Textual description of a manoeuvre. This should imply the information from Manoeuvre, TurnAction, and TrackSection.RoadName.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="DirectionHint" type="trias:InternationalTextStructure" minOccurs="0" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:documentation>Textual direction hint for better understanding, e.g. "follow signs to Hamburg".</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="RouteStructure">
+		<xsd:sequence>
+			<xsd:element name="RouteId" type="xsd:NMTOKEN">
+				<xsd:annotation>
+					<xsd:documentation>Id of this individual route for referencing purposes. Unique within individual route response.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Duration" type="xsd:duration">
+				<xsd:annotation>
+					<xsd:documentation>Overall duration of the route.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="StartTime" type="xsd:dateTime">
+				<xsd:annotation>
+					<xsd:documentation>Departure time at origin.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="EndTime" type="xsd:dateTime">
+				<xsd:annotation>
+					<xsd:documentation>Arrival time at destination.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Distance" type="trias:DistanceType" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Route distance.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Extension" type="xsd:anyType" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="FareZoneStructure">
+		<xsd:annotation>
+			<xsd:documentation>Model of a fare zone</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="FareZoneText" type="xsd:string">
+				<xsd:annotation>
+					<xsd:documentation>Text describing the fare zone. Passengers will recognize the fare zone by this text. Often published on Fare Zone Maps.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="FareZoneListInAreaStructure">
+		<xsd:annotation>
+			<xsd:documentation>List of fare zones within the area of a Fares Authority.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="FareZone" type="trias:FareZoneStructure" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:documentation>Fare zone in area.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="TripLegRangeGroup">
+		<xsd:annotation>
+			<xsd:documentation>Range of trip legs (from - to) for which a fares result (ticket) is valid.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="FromTripLegIdRef" type="xsd:NMTOKEN">
+				<xsd:annotation>
+					<xsd:documentation>Identifies the "valid from" trip leg.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="ToTripLegIdRef" type="xsd:NMTOKEN">
+				<xsd:annotation>
+					<xsd:documentation>Identifies the "valid to" trip leg.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:simpleType name="VehicleProgressEnumeration">
+		<xsd:annotation>
+			<xsd:documentation>Vehicle progress relative to timetable service pattern.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="Not yet operated"/>
+			<xsd:enumeration value="Operation finished"/>
+			<xsd:enumeration value="At stop"/>
+			<xsd:enumeration value="Between stops"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	
+	<xsd:complexType name="VehiclePositionStructure">
+		<xsd:annotation>
+			<xsd:documentation>Geographical and logical position of a vehicle.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="GeoPosition" type="trias:GeoPositionStructure" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Geographic position of vehicle.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Progress" type="trias:VehicleProgressEnumeration" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Logical progress of vehicle relative to service pattern.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Bearing" type="trias:GeoPositionStructure" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Bearing in compass degrees in which vehicle is heading.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="ProgressBetweenStops" type="trias:ProgressBetweenStopsStructure" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Provides information about the progress of the vehicle along its current link, that is link from previous visited top to current position.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="ProgressBetweenStopsStructure">
+		<xsd:annotation>
+			<xsd:documentation>Type for Progress between stops.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="LinkDistance" type="trias:DistanceType" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>The total distance in metres between the previous stop and the next stop.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="VehicleFacilityStructure">
+		<xsd:annotation>
+			<xsd:documentation>Model of a vehicle facility.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="FacilityDescription" type="trias:InternationalTextStructure" minOccurs="0" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:documentation>Name or text describing the facility.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="LocationDescription" type="trias:InternationalTextStructure" minOccurs="0" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:documentation>Description where the facility is located.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="FacilityStructure">
+		<xsd:annotation>
+			<xsd:documentation>Structure of Facility and its Status</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:choice>
+				<xsd:element name="VehicleFacility"/>
+				<xsd:element name="InfrastructureFacility"/>
+			</xsd:choice>
+			<xsd:element name="Condition" type="trias:VehicleFacilityStructure">
+				<xsd:annotation>
+					<xsd:documentation>The current condition/status of the facility.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Extension" type="xsd:anyType" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="InfrastructureFacilityStructure">
+		<xsd:annotation>
+			<xsd:documentation>Model of a infrastructure facility.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="FacilityDescription" type="trias:InternationalTextStructure" minOccurs="0" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:documentation>Name or text describing the facility.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Location" type="trias:GeoPositionStructure" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Coordinate position of the facility.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="LocationDescription" type="trias:InternationalTextStructure" minOccurs="0" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:documentation>Description where the facility is located.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	
+	
+	<xsd:complexType name="LocationRefStructure">
+		<xsd:annotation>
+			<xsd:documentation>Reference to a stop, address, POI, locality</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:choice>
+				<xsd:element name="GeoPosition" type="trias:GeoPositionStructure">
+					<xsd:annotation>
+						<xsd:documentation>WGS84 coordinates position.</xsd:documentation>
+					</xsd:annotation>
+				</xsd:element>
+			</xsd:choice>
+			<xsd:element name="LocationName" type="trias:InternationalTextStructure" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:documentation>Public name of the location.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="GeoPositionStructure">
+		<xsd:annotation>
+			<xsd:documentation>Expressed as WGS84</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="Longitude" type="trias:LongitudeType">
+				<xsd:annotation>
+					<xsd:documentation>Longitude from Greenwich Meridian. -180 (West) to +180 (East).</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Latitude" type="trias:LatitudeType">
+				<xsd:annotation>
+					<xsd:documentation>Latitude from equator. -90 (South) to +90 (North).</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Altitude" type="trias:AltitudeType" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Altitude metres from sea level.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+
+
+	<xsd:complexType name="IndividualRouteRequestStructure">
+		<xsd:sequence>
+			<xsd:element name="Origin" type="trias:IndividualRouteLocationContextStructure"/>
+			<xsd:element name="Destination" type="trias:IndividualRouteLocationContextStructure"/>
+			<xsd:element name="Via" type="trias:ViaStructure" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="Mode" type="trias:IndividualTransportOptionsStructure" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="ViaStructure">
+		<xsd:annotation>
+			<xsd:documentation>Via restrictions for a journey.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="ViaPoint" type="trias:LocationRefStructure">
+				<xsd:annotation>
+					<xsd:documentation>Reference to specify the via location.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="IndividualRouteLocationContextStructure">
+		<xsd:sequence>
+			<xsd:element name="LocationRef" type="trias:LocationRefStructure"/>
+			<xsd:element name="DepArrTime" type="xsd:dateTime" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="IndividualTransportOptionsStructure">
+		<xsd:annotation>
+			<xsd:documentation>Individual modes and their usage limits as stated by the passenger</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="MaxDistance" type="trias:DistanceType" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Maximum distance in meters. If given, it restricts the maximum distance of routes with the given mode.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="MaxDuration" type="xsd:duration" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Maximum duration. If given, it restricts the maximum time of routes with the given mode.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="MinDistance" type="trias:DistanceType" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Minimum distance in meters. If given, it restricts the minimum distance of routes with the given mode.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="MinDuration" type="xsd:duration" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Minimum duration. If given, it restricts the minimum time of routes with the given mode.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:simpleType name="LongitudeType">
+		<xsd:annotation>
+			<xsd:documentation>Longitude from Greenwich.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:decimal"/>
+	</xsd:simpleType>
+	<xsd:simpleType name="LatitudeType">
+		<xsd:annotation>
+			<xsd:documentation>Latitude from equator.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:decimal"/>
+	</xsd:simpleType>
+	<xsd:simpleType name="AltitudeType">
+		<xsd:annotation>
+			<xsd:documentation>Altitude metres from sea level.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:decimal"/>
+	</xsd:simpleType>
+</xsd:schema>
